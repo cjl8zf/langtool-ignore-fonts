@@ -2,7 +2,7 @@
 
 ## Summary
 
-Force [langtool](https://github.com/languagetool-org/languagetool) to
+Force [Langtool](https://github.com/languagetool-org/languagetool) to
 ignore certain fonts. For example don't highlight LaTeX in math-mode.
 
 When running [Emacs-Langtool](https://github.com/mhayashi1120/Emacs-langtool) on a
@@ -27,7 +27,7 @@ ignored fonts. We provide out of the box support for LaTeX as follows:
 ```
 
 However, I can see this being used for many other major-modes. For
-instance to set markdown-mode to ignore code comments add the
+instance to set markdown-mode to ignore code blocks add the
 following to your init file after loading this package.
 
 ```
