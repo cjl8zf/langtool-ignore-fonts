@@ -14,12 +14,12 @@ of their given major-mode's syntax highlighting to ignore a certain
 font. The idea here is that the major mode should have put in a lot of
 thought to identifying the various parts of the document.
 
-For instance by telling Langtool to ignore 'font-latex-math-face
-Langtool will no longer complain about math expressions. This was my
+By telling Langtool to ignore ```'font-latex-math-face```
+it will no longer complain about math expressions. This was my
 main use case while writing my thesis. This effectively adds langtool
 support for LaTeX in Emacs. One simpliy adds a hook for their desired
 mode and sets the list `'langtool-ignore-fonts` to the desired list of
-ignored fonts. We provide out of the box support for LaTeX as follows:
+ignored fonts. This package provide out of the box support for LaTeX as follows:
 
 ```
 (add-hook 'latex-mode-hook (lambda () 
@@ -31,7 +31,7 @@ package is installed:
 
 ![](https://imgur.com/XuLEsV8.jpg)
 
-This is what Langtool highlights with this package installed:
+This is what Langtool highlights instead with this package installed:
 
 ![](https://imgur.com/DJtTS5k.jpg)
 
