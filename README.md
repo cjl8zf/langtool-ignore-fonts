@@ -3,7 +3,7 @@
 ## Summary
 
 Force [Langtool](https://github.com/languagetool-org/languagetool) to
-ignore certain fonts. For example don't highlight LaTeX in math-mode.
+ignore certain fonts. For example, stop Langtool from highlighting LaTeX in math-mode.
 
 When running [Emacs-Langtool](https://github.com/mhayashi1120/Emacs-langtool) on a
 buffer containing a markup language Langtool will highlight many false
