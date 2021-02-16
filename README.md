@@ -29,11 +29,11 @@ ignored fonts. We provide out of the box support for LaTeX as follows:
 This is an example of what Langtool highlights in LaTeX-mode before this
 package is installed:
 
-![](https://imgur.com/XuLEsV8)
+![](https://imgur.com/XuLEsV8.jpg)
 
 This is what Langtool highlights with this package installed:
 
-![](https://imgur.com/DJtTS5k)
+![](https://imgur.com/DJtTS5k.jpg)
 
 However, I can see this being used for many other major-modes. For
 instance to set markdown-mode to ignore code blocks add the
