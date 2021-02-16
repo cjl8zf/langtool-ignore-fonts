@@ -1,0 +1,17 @@
+# Generated files
+*.elc
+*-pkg.el
+*.tar
+TAGS
+doc/langtool-ignore-fonts.texi
+doc/langtool-ignore-fonts.info
+
+# Packages
+elpa
+/.cask
+dist
+
+# Ecukes
+/features/project/.cask
+/features/project/test/*.el
+.ecukes-failing-scenarios
