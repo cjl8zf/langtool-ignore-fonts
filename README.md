@@ -23,7 +23,7 @@ ignored fonts. This package provide out of the box support for LaTeX as follows:
 
 ```
 (add-hook 'latex-mode-hook (lambda () 
-	(setq langtool-ignore-fonts '(font-lock-comment-face font-latex-math-face))))
+	(setq-local langtool-ignore-fonts '(font-lock-comment-face font-latex-math-face))))
 ```
 
 This is an example of what Langtool highlights in LaTeX-mode before this
@@ -41,7 +41,7 @@ following to your init file after loading this package.
 
 ```
 (add-hook 'markdown-mode-hook (lambda () 
-	(setq langtool-ignore-fonts '(markdown-code-face))))
+	(setq-local langtool-ignore-fonts '(markdown-code-face))))
 ```
 
 Note: This package works in two passes. First Langtool highlights
@@ -73,7 +73,7 @@ You could add your markdown font list here:
   :load-path "~/.emacs.d/elpa/"
   :config 
   (add-hook 'markdown-mode-hook (lambda () 
-	(setq langtool-ignore-fonts '(markdown-code-face)))))
+	(setq-local langtool-ignore-fonts '(markdown-code-face)))))
 ```
 ## Contributing
 
