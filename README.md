@@ -36,7 +36,7 @@ This is what Langtool highlights instead with this package installed:
 <img src="https://imgur.com/DJtTS5k.jpg" alt="Picture of some LaTeX with this package." width="600">
 
 However, I can see this being used for many other major-modes. For
-instance to set markdown-mode to ignore code blocks add the
+example, to set markdown-mode to ignore code blocks add the
 following to your init file after loading this package.
 
 ```
@@ -67,7 +67,7 @@ Or you can use use-package (once you have installed it locally):
 (use-package langtool-ignore-fonts
   :load-path "~/.emacs.d/elpa/")
 ```
-You could add your markdown font list here for instance 
+You could add your markdown font list here:
 ```
 (use-package langtool-ignore-fonts
   :load-path "~/.emacs.d/elpa/"
