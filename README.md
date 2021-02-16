@@ -45,7 +45,7 @@ following to your init file after loading this package.
 ```
 
 Note: This package works in two passes. First Langtool highlights
-everything like normal, and then this package removes the forbidden
+everything like normal and then this package removes the forbidden
 highlights.
 
 ## Installing
