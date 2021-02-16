@@ -26,6 +26,15 @@ ignored fonts. We provide out of the box support for LaTeX as follows:
 	(setq langtool-ignore-fonts '(font-lock-comment-face font-latex-math-face))))
 ```
 
+This is an example of what Langtool highlights in LaTeX-mode before this
+package is installed:
+
+![](https://imgur.com/XuLEsV8)
+
+This is what Langtool highlights with this package installed:
+
+![](https://imgur.com/DJtTS5k)
+
 However, I can see this being used for many other major-modes. For
 instance to set markdown-mode to ignore code blocks add the
 following to your init file after loading this package.
@@ -34,6 +43,10 @@ following to your init file after loading this package.
 (add-hook 'markdown-mode-hook (lambda () 
 	(setq langtool-ignore-fonts '(markdown-code-face))))
 ```
+
+Note: This package works in two passes. First Langtool highlights
+everything like normal, and then this package removes the forbidden
+highlights.
 
 ## Installing
 
@@ -68,7 +81,7 @@ Yes, please do! See [CONTRIBUTING][] for guidelines.
 
 ## License
 
-See [COPYING][]. Copyright (c) 2021 Chrstopher Lloyd.
+See [COPYING][]. Copyright (c) 2021 Christopher Lloyd.
 
 
 [CONTRIBUTING]: ./CONTRIBUTING.md
