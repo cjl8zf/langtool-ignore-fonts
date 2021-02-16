@@ -29,7 +29,7 @@ ignored fonts. This package provide out of the box support for LaTeX as follows:
 This is an example of what Langtool highlights in LaTeX-mode before this
 package is installed:
 
-<img src="https://imgur.com/4y7SCMF.jpg" alt="Picture of some LaTeX without this package." width="600">
+<img src="https://imgur.com/puxKwB3.jpg" alt="Picture of some LaTeX without this package." width="600">
 
 This is what Langtool highlights instead with this package installed:
 
