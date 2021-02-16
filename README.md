@@ -29,7 +29,6 @@ ignored fonts. This package provide out of the box support for LaTeX as follows:
 This is an example of what Langtool highlights in LaTeX-mode before this
 package is installed:
 <img src="https://imgur.com/XuLEsV8.jpg" alt="Picture of some LaTeX without this package." width="600">
-![](https://imgur.com/XuLEsV8.jpg)
 This is what Langtool highlights instead with this package installed:
 <img src="https://imgur.com/DJtTS5k.jpg" alt="Picture of some LaTeX with this package." width="600">
 
