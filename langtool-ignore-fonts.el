@@ -1,8 +1,8 @@
 ;;; langtool-ignore-fonts.el --- Force langtool to ignore certain fonts.
 
-;; Copyright (C) 2021 Chrstopher Lloyd
+;; Copyright (C) 2021 Christopher Lloyd
 
-;; Author: Chrstopher Lloyd <cjl8zf@virginia.edu>
+;; Author: Christopher Lloyd <cjl8zf@virginia.edu>
 ;; Version: 0.1
 
 ;; This file is not part of GNU Emacs.
@@ -89,7 +89,6 @@
 (add-hook 'LaTeX-mode-hook (lambda ()
 			     (setq-local langtool-ignore-fonts '(font-lock-comment-face
 								 font-latex-math-face))))
-
 (advice-add 'langtool--check-finish :after #'delete-langtool-matched-font-overlays-advice)
 
 (provide 'langtool-ignore-fonts)
