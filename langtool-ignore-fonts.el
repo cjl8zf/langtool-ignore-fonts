@@ -87,8 +87,8 @@
 
 ;;;  Add support for LaTeX
 (add-hook 'LaTeX-mode-hook (lambda ()
-			     (setq langtool-ignore-fonts '(font-lock-comment-face
-							   font-latex-math-face))))
+			     (setq-local langtool-ignore-fonts '(font-lock-comment-face
+								 font-latex-math-face))))
 
 (advice-add 'langtool--check-finish :after #'delete-langtool-matched-font-overlays-advice)
 
