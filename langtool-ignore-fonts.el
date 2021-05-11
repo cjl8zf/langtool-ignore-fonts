@@ -1,9 +1,11 @@
-;;; langtool-ignore-fonts.el --- Force langtool to ignore certain fonts.
+;;; langtool-ignore-fonts.el --- Force langtool to ignore certain fonts  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2021 Christopher Lloyd
 
 ;; Author: Christopher Lloyd <cjl8zf@virginia.edu>
+;; URL: https://github.com/cjl8zf/langtool-ignore-fonts
 ;; Version: 0.1
+;; Package-Requires: ((emacs "25.1") (langtool "2.2.1"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -25,7 +27,8 @@
 ;; Force langtool to ignore certain fonts.
 
 ;;; Code:
-(defcustom langtool-ignore-fonts nil;; '(font-lock-comment-face font-latex-math-face)
+
+(defcustom langtool-ignore-fonts nil
   "List of font faces that langtool should ignore.
 
    For example, the default values prevent langtool from trying to
@@ -38,7 +41,7 @@
 
 (make-local-variable 'langtool-ignore-fonts)
 
-(defun get-langtool-overlays ()
+(defun langtool-ignore-fonts-get-overlays ()
   "Find all of the langtool overlays.
 
   This function assumes that langtool-check has already been run.
@@ -51,46 +54,49 @@
      (lambda (ov) (overlay-get ov 'langtool-message))
      (overlays-in 0 (buffer-size)))))
 
-(defun overlay-has-matched-font (ov)
+(defun langtool-ignore-fonts-overlay-has-matched-font (ov)
   "Check to see if the overlay OV region font is on our list of fonts."
-  (or (matched-font-at (overlay-start ov)) (matched-font-at (overlay-end ov))))
+  (or (langtool-ignore-fonts-matched-font-at (overlay-start ov))
+      (langtool-ignore-fonts-matched-font-at (overlay-end ov))))
 
-
-(defun matched-font-at (pos)
+(defun langtool-ignore-fonts-matched-font-at (pos)
   "Check to see if the character at POS has a font from the langtool-ignore-fonts list."
   (< 0 (length (cl-intersection langtool-ignore-fonts
-				(treat-as-list (get-text-property pos 'face))))))
+				(langtool-ignore-fonts-treat-as-list (get-text-property pos 'face))))))
 
-(defun treat-as-list (x)
+(defun langtool-ignore-fonts-treat-as-list (x)
   "If X is a single value wrap it as a singleton otherwise leave it alone."
   (if (listp x) x (list x)))
 
-(defun get-langtool-matched-font-overlays ()
+(defun langtool-ignore-fonts-get-matched-font-overlays ()
   "Get a list of all of the langtool-overlays that match the langtool-ignore-fonts list."
-  (seq-filter #'overlay-has-matched-font (get-langtool-overlays)))
+  (seq-filter #'langtool-ignore-fonts-overlay-has-matched-font (langtool-ignore-fonts-get-overlays)))
 
 
-(defun delete-langtool-matched-font-overlays ()
+(defun langtool-ignore-fonts-delete-matched-overlays ()
   "Delete any langtool overlays that match the font list langtool-ignore-fonts."
   (interactive)
-  (mapc #'delete-overlay (get-langtool-matched-font-overlays)))
+  (mapc #'delete-overlay (langtool-ignore-fonts-get-matched-font-overlays)))
 
-(defun delete-langtool-matched-font-overlays-advice (&rest args)
+(defun langtool-ignore-fonts-delete-matched-overlays-advice (&rest args)
   "Advise with ARGS to remove langtool overlays that match the font list.
    
   This function should be called after 'langtool--check-finish."
   (progn
     (message "Removing langtool overlays matching 'langtool-ignore-fonts.")
-    (mapc #'delete-overlay (get-langtool-matched-font-overlays))
+    (mapc #'delete-overlay (langtool-ignore-fonts-get-matched-font-overlays))
     (message "Done removing overlays.")))
 
 
 ;;;  Add support for LaTeX
 (add-hook 'LaTeX-mode-hook (lambda ()
 			     (setq-local langtool-ignore-fonts '(font-lock-comment-face
-								 font-latex-math-face))))
-(advice-add 'langtool--check-finish :after #'delete-langtool-matched-font-overlays-advice)
+								 font-latex-math-face
+								 font-latex-string-face))))
+
+(advice-add 'langtool--check-finish :after #'langtool-ignore-fonts-delete-matched-overlays-advice)
 
 (provide 'langtool-ignore-fonts)
 
+(provide 'langtool-ignore-fonts)
 ;;; langtool-ignore-fonts.el ends here
