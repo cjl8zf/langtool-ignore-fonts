@@ -44,7 +44,7 @@
 (defun langtool-ignore-fonts-get-overlays ()
   "Find all of the langtool overlays.
 
-  This function assumes that langtool-check has already been run.
+  This function assumes that `langtool-check' has already been run.
 
   We first call 'font-lock-ensure to ensure that reigons outside
   of acessible buffer have had font-lock applied."
@@ -60,7 +60,7 @@
       (langtool-ignore-fonts-matched-font-at (overlay-end ov))))
 
 (defun langtool-ignore-fonts-matched-font-at (pos)
-  "Check to see if the character at POS has a font from the langtool-ignore-fonts list."
+  "Check to see if the character at POS has a font from the `langtool-ignore-fonts' list."
   (< 0 (length (cl-intersection langtool-ignore-fonts
 				(langtool-ignore-fonts-treat-as-list (get-text-property pos 'face))))))
 
@@ -69,12 +69,11 @@
   (if (listp x) x (list x)))
 
 (defun langtool-ignore-fonts-get-matched-font-overlays ()
-  "Get a list of all of the langtool-overlays that match the langtool-ignore-fonts list."
+  "Get a list of all of the langtool-overlays that match the `langtool-ignore-fonts' list."
   (seq-filter #'langtool-ignore-fonts-overlay-has-matched-font (langtool-ignore-fonts-get-overlays)))
 
-
 (defun langtool-ignore-fonts-delete-matched-overlays ()
-  "Delete any langtool overlays that match the font list langtool-ignore-fonts."
+  "Delete any langtool overlays that match the font list `langtool-ignore-fonts'."
   (interactive)
   (mapc #'delete-overlay (langtool-ignore-fonts-get-matched-font-overlays)))
 
@@ -86,7 +85,6 @@
     (message "Removing langtool overlays matching 'langtool-ignore-fonts.")
     (mapc #'delete-overlay (langtool-ignore-fonts-get-matched-font-overlays))
     (message "Done removing overlays.")))
-
 
 ;;;  Add support for LaTeX
 (add-hook 'LaTeX-mode-hook (lambda ()
