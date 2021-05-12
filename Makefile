@@ -1,3 +1,4 @@
+
 CASK        ?= cask
 EMACS       ?= emacs
 DIST        ?= dist
@@ -13,21 +14,21 @@ USER_ELPA_D  = $(EMACS_D)/elpa
 
 SRCS         = $(filter-out %-pkg.el, $(wildcard *.el))
 TESTS        = $(wildcard test/*.el)
-ORG_MANUAL   = doc/langtool-ignore-fonts.org
-TEXI_MANUAL  = doc/langtool-ignore-fonts.texi
 TAR          = $(DIST)/langtool-ignore-fonts-$(VERSION).tar
 
 
-.PHONY: all check test unit ecukes lint install uninstall reinstall clean-all clean clean-elc
+.PHONY: all check test unit ecukes lint deps install uninstall reinstall clean-all clean clean-elc
+all : deps $(TAR)
 
-all : $(PKG_DIR) $(TAR)
+deps :
+	$(CASK) install
 
 install : $(TAR)
 	$(EMACSBATCH) -l package -f package-initialize \
 	--eval '(package-install-file "$(PROJ_ROOT)/$(TAR)")'
 
 uninstall :
-	rm -rf $(USER_ELPA_D)/skeletor-*
+	rm -rf $(USER_ELPA_D)/langtool-ignore-fonts-*
 
 reinstall : clean uninstall install
 
@@ -39,23 +40,13 @@ clean-elc :
 
 clean : clean-elc
 	rm -rf $(DIST)
-	rm -f $(TEXI_MANUAL)
 	rm -f *-pkg.el
 
-$(PKG_DIR) : Cask
-	$(CASK) install
-	touch $(PKG_DIR)
-
-$(TAR) : $(DIST) $(TEXI_MANUAL)
-	$(CASK) package
+$(TAR) : $(DIST) $(SRCS)
+	$(CASK) package $(DIST)
 
 $(DIST) :
 	mkdir $(DIST)
-
-$(TEXI_MANUAL) : $(PKG_DIR) $(ORG_MANUAL)
-	$(CASK) exec $(EMACSBATCH) \
-	-l org -l ox-texinfo \
-	--file=$(ORG_MANUAL) -f org-texinfo-export-to-texinfo
 
 check : test lint
 
