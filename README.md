@@ -77,7 +77,7 @@ You could add your markdown font list here:
 ```
 ## Contributing
 
-Yes, please do! Make a pull-reques.
+Yes, please do! Make a pull-request.
 
 ## License
 
