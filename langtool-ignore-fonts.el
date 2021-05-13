@@ -5,7 +5,7 @@
 ;; Author: Christopher Lloyd <cjl8zf@virginia.edu>
 ;; URL: https://github.com/cjl8zf/langtool-ignore-fonts
 ;; Version: 0.2
-;; Package-Requires: ((emacs "25.1") (langtool "20200529.230") (cl-lib "0.7"))
+;; Package-Requires: ((emacs "25.1") (langtool "2.2.1"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -27,6 +27,8 @@
 ;; Force langtool to ignore certain fonts.
 
 ;;; Code:
+
+(require 'cl-lib)
 
 (defcustom langtool-ignore-fonts nil
   "List of font faces that langtool should ignore.
