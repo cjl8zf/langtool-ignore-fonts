@@ -4,7 +4,7 @@
 
 ;; Author: Christopher Lloyd <cjl8zf@virginia.edu>
 ;; URL: https://github.com/cjl8zf/langtool-ignore-fonts
-;; Version: 0.2
+;; Version: 0.3
 ;; Package-Requires: ((emacs "25.1") (langtool "2.2.1"))
 
 ;; This file is not part of GNU Emacs.
@@ -30,31 +30,32 @@
 
 (require 'cl-lib)
 
+(defcustom langtool-ignore-fonts-major-mode-font-list nil
+  "Fonts that should be ignored by `langtool' in a given `major-mode'."
+  :type 'sexp
+  :group 'langtool)
+
 (defcustom langtool-ignore-fonts nil
-  "List of font faces that langtool should ignore.
+  "List of font faces that `langtool' should ignore in current buffer.
 
-   For example, the default values prevent langtool from trying to
-   correct LaTeX math or comments.
-
-   This variable is buffer local so that the behavior of langtool
-   can be altered based on the current 'major-mode."
+   This variable is buffer local so that the behavior of `langtool'
+   can be altered based on the current `major-mode'."
   :type 'sexp
   :group 'langtool)
 
 (make-local-variable 'langtool-ignore-fonts)
 
 (defun langtool-ignore-fonts--get-overlays ()
-  "Find all of the langtool overlays.
+  "Find all of the `langtool' overlays.
 
   This function assumes that `langtool-check' has already been run.
 
   We first call 'font-lock-ensure to ensure that reigons outside
-  of acessible buffer have had font-lock applied."
-  (progn
-    (font-lock-ensure)
-    (seq-filter
-     (lambda (ov) (overlay-get ov 'langtool-message))
-     (overlays-in 0 (buffer-size)))))
+  of accessible buffer have had font-lock applied."
+  (font-lock-ensure)
+  (seq-filter
+   (lambda (ov) (overlay-get ov 'langtool-message))
+   (overlays-in 0 (buffer-size))))
 
 (defun langtool-ignore-fonts--overlay-matches-font-p (ov)
   "Check to see if the overlay OV region font is on our list of fonts."
@@ -76,26 +77,44 @@
 
 (defun langtool-ignore-fonts--delete-matched-overlays ()
   "Delete any langtool overlays that match the font list `langtool-ignore-fonts'."
-  (interactive)
   (mapc #'delete-overlay (langtool-ignore-fonts--get-matched-font-overlays)))
 
 (defun langtool-ignore-fonts--delete-matched-overlays-advice (&rest _args)
-  "Advise with ARGS to remove langtool overlays that match the font list.
+  "Advise with ARGS to remove overlays matching `langtool-ignore-fonts'.
    
   This function should be called after 'langtool--check-finish."
-  (progn
-    (message "Removing langtool overlays matching 'langtool-ignore-fonts.")
-    (mapc #'delete-overlay (langtool-ignore-fonts--get-matched-font-overlays))
-    (message "Done removing overlays.")))
+  (message "Removing langtool overlays matching 'langtool-ignore-fonts.")
+  (mapc #'delete-overlay (langtool-ignore-fonts--get-matched-font-overlays))
+  (message "Done removing overlays."))
 
-(advice-add 'langtool--check-finish :after #'langtool-ignore-fonts--delete-matched-overlays-advice)
+(defun langtool-ignore-fonts--enable ()
+  "Enable `langtool-ignore-fonts'.
+
+  Add advice to `langtool--check-finish' to remove fonts set with
+  `langtool-ignore-fonts-add'."
+  (advice-add 'langtool--check-finish :after #'langtool-ignore-fonts--delete-matched-overlays-advice)
+  (let ((major-mode-fonts (cdr (assoc major-mode langtool-ignore-fonts-major-mode-font-list))))
+    (setq-local langtool-ignore-fonts major-mode-fonts)))
+
+(defun langtool-ignore-fonts--disable ()
+  "Disable `langtool-ignore-fonts'."
+  (advice-remove 'langtool--check-finish #'langtool-ignore-fonts--delete-matched-overlays-advice))
+
+;;;###autoload
+(define-minor-mode langtool-ignore-fonts-minor-mode
+  "Automically remove `langtool' overlays with font matching `langtool-ignore-fonts'"
+  :lighter " LT:IF"
+  (if langtool-ignore-fonts-minor-mode
+      (langtool-ignore-fonts--enable)
+    (langtool-ignore-fonts--disable)))
+
+(defun langtool-ignore-fonts-add (mode fonts)
+  "Add FONTS to the list of fonts to be ignored by `langtool' in MODE."
+  (add-to-list 'langtool-ignore-fonts-major-mode-font-list (cons mode fonts)))
 
 
-;;;  Add support for LaTeX
-(add-hook 'LaTeX-mode-hook (lambda ()
-			     (setq-local langtool-ignore-fonts '(font-lock-comment-face
-								 font-latex-math-face
-								 font-latex-string-face))))
+(langtool-ignore-fonts-add 'latex-mode  '(font-lock-comment-face
+					  font-latex-math-face font-latex-string-face))
 
 (provide 'langtool-ignore-fonts)
 
