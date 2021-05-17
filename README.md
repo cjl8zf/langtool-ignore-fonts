@@ -24,7 +24,7 @@ follows:
 
 ```
 (langtool-ignore-fonts-add 'latex-mode  '(font-lock-comment-face
-					                      font-latex-math-face font-latex-string-face))
+					  font-latex-math-face font-latex-string-face))
 ```
 
 This is an example of what Langtool highlights in LaTeX-mode before this
