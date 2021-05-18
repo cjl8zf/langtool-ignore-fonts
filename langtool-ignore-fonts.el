@@ -31,15 +31,14 @@
 (require 'cl-lib)
 
 (defcustom langtool-ignore-fonts-major-mode-font-list nil
-  "Fonts that should be ignored by `langtool' in a given `major-mode'."
+  "Font faces that should be ignored by `langtool' in a given `major-mode'."
   :type 'sexp
   :group 'langtool)
 
 (defcustom langtool-ignore-fonts nil
-  "List of font faces that `langtool' should ignore in current buffer.
-
-   This variable is buffer local so that the behavior of `langtool'
-   can be altered based on the current `major-mode'."
+  "Font faces that `langtool' should ignore in current buffer.
+This variable is buffer local so that the behavior of `langtool'
+can be altered based on the current `major-mode'."
   :type 'sexp
   :group 'langtool)
 
@@ -47,11 +46,9 @@
 
 (defun langtool-ignore-fonts--get-overlays ()
   "Find all of the `langtool' overlays.
-
-  This function assumes that `langtool-check' has already been run.
-
-  We first call 'font-lock-ensure to ensure that reigons outside
-  of accessible buffer have had font-lock applied."
+This function assumes that `langtool-check' has already been run.
+We first call 'font-lock-ensure to ensure that reigons outside of
+accessible buffer have had font-lock applied."
   (font-lock-ensure)
   (seq-filter
    (lambda (ov) (overlay-get ov 'langtool-message))
@@ -81,17 +78,15 @@
 
 (defun langtool-ignore-fonts--delete-matched-overlays-advice (&rest _args)
   "Advise with ARGS to remove overlays matching `langtool-ignore-fonts'.
-   
-  This function should be called after 'langtool--check-finish."
+This function should be called after 'langtool--check-finish."
   (message "Removing langtool overlays matching 'langtool-ignore-fonts.")
   (mapc #'delete-overlay (langtool-ignore-fonts--get-matched-font-overlays))
   (message "Done removing overlays."))
 
 (defun langtool-ignore-fonts--enable ()
   "Enable `langtool-ignore-fonts'.
-
-  Add advice to `langtool--check-finish' to remove fonts set with
-  `langtool-ignore-fonts-add'."
+Add advice to `langtool--check-finish' to remove fonts set with
+`langtool-ignore-fonts-add'."
   (advice-add 'langtool--check-finish :after #'langtool-ignore-fonts--delete-matched-overlays-advice)
   (let ((major-mode-fonts (cdr (assoc major-mode langtool-ignore-fonts-major-mode-font-list))))
     (setq-local langtool-ignore-fonts major-mode-fonts)))
