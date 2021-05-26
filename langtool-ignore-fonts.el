@@ -30,7 +30,11 @@
 
 (require 'cl-lib)
 
-(defcustom langtool-ignore-fonts-major-mode-font-list nil
+(defcustom langtool-ignore-fonts-major-mode-font-list
+  '((latex-mode
+     font-lock-comment-face
+     font-latex-math-face
+     font-latex-string-face))
   "Font faces that should be ignored by `langtool' in a given `major-mode'."
   :type 'sexp
   :group 'langtool)
@@ -40,9 +44,8 @@
 This variable is buffer local so that the behavior of `langtool'
 can be altered based on the current `major-mode'."
   :type 'sexp
-  :group 'langtool)
-
-(make-local-variable 'langtool-ignore-fonts)
+  :group 'langtool
+  :local 't)
 
 (defun langtool-ignore-fonts--get-overlays ()
   "Find all of the `langtool' overlays.
@@ -106,10 +109,6 @@ Add advice to `langtool--check-finish' to remove fonts set with
 (defun langtool-ignore-fonts-add (mode fonts)
   "Add FONTS to the list of fonts to be ignored by `langtool' in MODE."
   (add-to-list 'langtool-ignore-fonts-major-mode-font-list (cons mode fonts)))
-
-
-(langtool-ignore-fonts-add 'latex-mode  '(font-lock-comment-face
-					  font-latex-math-face font-latex-string-face))
 
 (provide 'langtool-ignore-fonts)
 
